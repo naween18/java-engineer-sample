@@ -44,7 +44,25 @@ public class AccountResourceImpl implements AccountResource {
 		Link link = Link.fromUri(baseUrl).rel("self").build();		
 		ResourceCollection<Account> resource = new ResourceCollection<>(accounts);
 		return Response.ok(resource).links(link).build();
-	}	
+	}
+	
+	@Override
+	public Response getAccountById(long accountId) {
+		
+		logger.info("Fetching Account with id {}", accountId);
+		Account account = accountService.findById(accountId);
+		if (account == null) {
+			logger.error("Account with id {} not found.", accountId);	
+			return Response.status(HttpStatus.NOT_FOUND.value()).entity(new CustomError("Account with id " + accountId 
+					+ " not found", HttpStatus.NOT_FOUND.name())).build();			
+		}	
+
+		Link link = Link.fromUri(baseUrl).rel("self").build(accountId);
+
+		Resource<Account> resource = new Resource<>(account);
+		return Response.ok(resource).links(link).build();
+	}
+
 	
 
 	

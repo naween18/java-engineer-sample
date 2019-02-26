@@ -52,6 +52,27 @@ public interface AccountResource {
 					})
 	public Response findAllAccounts();
 	
+    /**
+     * Service definition which returns all the accounts
+     *
+     * 
+     * @return User - Returns the details of the accounts being searched
+     */
+	@GET
+	@Path ("/{accountid}")
+	@Produces({MediaType.APPLICATION_JSON})
+	@Consumes({MediaType.APPLICATION_JSON})
+	@ApiOperation(
+			value = "Get Account by ID",
+			notes = "Returns Account by ID",
+			response = AccountResponse.class)
+	@ApiResponses(
+			value = {
+					@ApiResponse(code = 200, message = "OK"),
+					@ApiResponse(code = 404, message = "Not Found")					
+					})
+	public Response getAccountById(@PathParam ("accountid") long accountId);
+	
 
 	
 }
